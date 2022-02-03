@@ -1,0 +1,34 @@
+{
+  "name": "clotho",
+  "version": "0.0.1",
+  "author": "styxpilled",
+  "scripts": {
+    "dev": "rimraf public/build && rollup -c -w",
+    "build": "rimraf public/build && rollup -c",
+    "commit": "cz"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-typescript": "^8.3.0",
+    "@types/webextension-polyfill": "^0.8.2",
+    "cz-conventional-changelog": "^3.3.0",
+    "postcss": "^8.4.6",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.66.1",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-multi-input": "^1.3.1",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-svelte": "^7.1.0",
+    "svelte": "^3.38.3",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.5",
+    "webextension-polyfill": "^0.8.0"
+  },
+  "type": "module",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
