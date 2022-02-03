@@ -1,6 +1,5 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
-import css from 'rollup-plugin-css-only';
 import postcss from 'rollup-plugin-postcss';
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from '@rollup/plugin-typescript';
@@ -31,6 +30,8 @@ export default [
   plugins: [
     multi(),
     typescript(),
+    resolve({browser: true}),
+    commonjs(),
   ],
 },
 {

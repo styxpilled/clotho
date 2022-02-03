@@ -1,3 +1,15 @@
+import browser from 'webextension-polyfill';
+
+let active: boolean;
+
+browser.storage.onChanged.addListener((changes) => {
+  if (changes.active) {
+    active = changes.active.newValue;
+    prevTarget.classList.remove(clothoOutline);
+    prevTarget = null;
+  }
+});
+
 // Unique ID for the className.
 const clothoOutline = 'clotho-picker-outline';
 
@@ -6,33 +18,36 @@ let prevTarget: HTMLElement = null;
 
 // Mouse listener for any move event on the current document.
 document.addEventListener('mousemove', (event) => {
-  const target = event.target as HTMLElement;
-  if (prevTarget != target) {
-    if (prevTarget != null) {
-      prevTarget.classList.remove(clothoOutline);
+  if (active) {
+    const target = event.target as HTMLElement;
+    if (prevTarget != target) {
+      if (prevTarget != null) {
+        prevTarget.classList.remove(clothoOutline);
+      }
+      target.classList.add(clothoOutline);
+      prevTarget = target;
     }
-    target.classList.add(clothoOutline);
-    prevTarget = target;
   }
 }, false);
 
 document.addEventListener('click', (event) => {
-  const target = event.target as HTMLElement;
-  let dummy = document.createElement('clotho-dummy-element');
-  document.body.appendChild(dummy);
+  if (active) {
+    const target = event.target as HTMLElement;
+    let dummy = document.createElement('clotho-dummy-element');
+    document.body.appendChild(dummy);
 
-  let style = window.getComputedStyle(target);
-  let defaultStyle = window.getComputedStyle(dummy);
-  let regex = /[A-Z]/g;
+    let style = window.getComputedStyle(target);
+    let defaultStyle = window.getComputedStyle(dummy);
+    let regex = /[A-Z]/g;
 
-  let diff = {};
-  for (let prop in style) {
-    if (style[prop] !== defaultStyle[prop] && !prop.match(regex)) {
-      diff[prop] = style[prop];
+    let diff = {};
+    for (let prop in style) {
+      if (style[prop] !== defaultStyle[prop] && !prop.match(regex)) {
+        diff[prop] = style[prop];
+      }
     }
+    dummy.remove();
+    console.log(diff);
+    console.log(style);
   }
-  dummy.remove();
-  console.log(diff);
-  console.log(style);
-  
 }, false);
