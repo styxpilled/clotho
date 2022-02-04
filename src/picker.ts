@@ -62,7 +62,7 @@ function removeRootStyles(target: HTMLElement, dummy: HTMLElement): Object {
   let lastProp: string = '';
   let diff = {};
   for (const prop in componentStyle) {
-    if (componentStyle[prop] !== windowStyle[prop]) {
+    if (componentStyle[prop] !== windowStyle[prop] && !prop.startsWith('-')) {
       diff[prop] = componentStyle[prop];
     } else if (prop === 'font-size') {
       fontSize = parseInt(componentStyle[prop]);
