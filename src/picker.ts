@@ -1,23 +1,30 @@
 import browser from 'webextension-polyfill';
 
 let active: boolean;
-
-browser.storage.onChanged.addListener((changes) => {
-  if (changes.active) {
-    active = changes.active.newValue;
-    prevTarget.classList.remove(clothoOutline);
-    prevTarget = null;
-  }
-});
+let pointerX: number, pointerY: number;
 
 // Unique ID for the className.
 const clothoOutline = 'clotho-picker-outline';
 
 // Previous dom, that we want to track, so we can remove the previous styling.
 let prevTarget: HTMLElement = null;
+let panel: HTMLElement = null;
+let fontSize: number = 16;
+
+browser.storage.onChanged.addListener((changes) => {
+  if (changes.active) {
+    active = changes.active.newValue;
+    prevTarget.classList.remove(clothoOutline);
+    prevTarget = null;
+    panel.remove();
+  }
+});
+
 
 // Mouse listener for any move event on the current document.
 document.addEventListener('mousemove', (event) => {
+  pointerX = event.pageX;
+	pointerY = event.pageY;
   if (active) {
     const target = event.target as HTMLElement;
     if (prevTarget != target) {
@@ -33,21 +40,44 @@ document.addEventListener('mousemove', (event) => {
 document.addEventListener('click', (event) => {
   if (active) {
     const target = event.target as HTMLElement;
-    let dummy = document.createElement('clotho-dummy-element');
+    const dummy = document.createElement('div');
+    dummy.setAttribute('id', 'clotho-dummy-element');
     document.body.appendChild(dummy);
 
-    let style = window.getComputedStyle(target);
-    let defaultStyle = window.getComputedStyle(dummy);
-    let regex = /[A-Z]/g;
+    let componentStyle = window.getComputedStyle(target);
+    let windowStyle = window.getComputedStyle(dummy);
 
     let diff = {};
-    for (let prop in style) {
-      if (style[prop] !== defaultStyle[prop] && !prop.match(regex)) {
-        diff[prop] = style[prop];
+    for (let prop in componentStyle) {
+      if (componentStyle[prop] !== windowStyle[prop]) {
+        diff[prop] = componentStyle[prop];
+      } else if (prop === 'font-size') {
+        fontSize = parseInt(componentStyle[prop]);
       }
     }
     dummy.remove();
-    console.log(diff);
-    console.log(style);
+
+    if (panel != null) {
+      panel.remove();
+    }
+
+    panel = document.createElement('div');
+    panel.setAttribute('id', 'clotho-picker-panel');
+    panel.setAttribute('class', 'clotho-picker-panel');
+
+    const p = document.createElement('p');
+    p.innerText = `fontsize: ${fontSize}`; 
+    panel.appendChild(p);
+
+    for (const prop in diff) {
+      const p = document.createElement('p');
+      p.innerText = `${prop}: ${diff[prop]}`; 
+      panel.appendChild(p);
+    }
+    panel.style.position = "absolute";
+    panel.style.left = `${pointerX}px`;
+    panel.style.top = `${pointerY}px`;
+
+    document.body.appendChild(panel);
   }
 }, false);
