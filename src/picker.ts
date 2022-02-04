@@ -24,7 +24,7 @@ browser.storage.onChanged.addListener((changes) => {
 // Mouse listener for any move event on the current document.
 document.addEventListener('mousemove', (event) => {
   pointerX = event.pageX;
-	pointerY = event.pageY;
+  pointerY = event.pageY;
   if (active) {
     const target = event.target as HTMLElement;
     if (prevTarget != target) {
@@ -44,40 +44,49 @@ document.addEventListener('click', (event) => {
     dummy.setAttribute('id', 'clotho-dummy-element');
     document.body.appendChild(dummy);
 
-    let componentStyle = window.getComputedStyle(target);
-    let windowStyle = window.getComputedStyle(dummy);
-
-    let diff = {};
-    for (let prop in componentStyle) {
-      if (componentStyle[prop] !== windowStyle[prop]) {
-        diff[prop] = componentStyle[prop];
-      } else if (prop === 'font-size') {
-        fontSize = parseInt(componentStyle[prop]);
-      }
-    }
+    const diff = removeRootStyles(target, dummy);
     dummy.remove();
 
     if (panel != null) {
       panel.remove();
     }
 
-    panel = document.createElement('div');
-    panel.setAttribute('id', 'clotho-picker-panel');
-    panel.setAttribute('class', 'clotho-picker-panel');
-
-    const p = document.createElement('p');
-    p.innerText = `fontsize: ${fontSize}`; 
-    panel.appendChild(p);
-
-    for (const prop in diff) {
-      const p = document.createElement('p');
-      p.innerText = `${prop}: ${diff[prop]}`; 
-      panel.appendChild(p);
-    }
-    panel.style.position = "absolute";
-    panel.style.left = `${pointerX}px`;
-    panel.style.top = `${pointerY}px`;
-
-    document.body.appendChild(panel);
+    createPanel(diff);
   }
 }, false);
+
+function removeRootStyles(target: HTMLElement, dummy: HTMLElement) {
+  let componentStyle = window.getComputedStyle(target);
+  let windowStyle = window.getComputedStyle(dummy);
+
+  let diff = {};
+  for (let prop in componentStyle) {
+    if (componentStyle[prop] !== windowStyle[prop]) {
+      diff[prop] = componentStyle[prop];
+    } else if (prop === 'font-size') {
+      fontSize = parseInt(componentStyle[prop]);
+    }
+  }
+  return diff;
+}
+
+function createPanel(diff) {
+  panel = document.createElement('div');
+  panel.setAttribute('id', 'clotho-picker-panel');
+  panel.setAttribute('class', 'clotho-picker-panel');
+
+  const p = document.createElement('p');
+  p.innerText = `fontsize: ${fontSize}`;
+  panel.appendChild(p);
+
+  for (const prop in diff) {
+    const p = document.createElement('p');
+    p.innerText = `${prop}: ${diff[prop]}`;
+    panel.appendChild(p);
+  }
+  panel.style.position = "absolute";
+  panel.style.left = `${pointerX}px`;
+  panel.style.top = `${pointerY}px`;
+
+  document.body.appendChild(panel);
+}
