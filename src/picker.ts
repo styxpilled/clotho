@@ -55,22 +55,27 @@ document.addEventListener('click', (event) => {
   }
 }, false);
 
-function removeRootStyles(target: HTMLElement, dummy: HTMLElement) {
+function removeRootStyles(target: HTMLElement, dummy: HTMLElement): Object {
   let componentStyle = window.getComputedStyle(target);
   let windowStyle = window.getComputedStyle(dummy);
 
+  let lastProp: string = '';
   let diff = {};
-  for (let prop in componentStyle) {
+  for (const prop in componentStyle) {
     if (componentStyle[prop] !== windowStyle[prop]) {
       diff[prop] = componentStyle[prop];
     } else if (prop === 'font-size') {
       fontSize = parseInt(componentStyle[prop]);
+    }  
+    if (prop.replace(/-/g, '').toLowerCase() === lastProp.replace(/-/g, '').toLowerCase()) {
+      delete diff[lastProp];
     }
+    lastProp = prop;
   }
   return diff;
 }
 
-function createPanel(diff) {
+function createPanel(diff: Object) {
   panel = document.createElement('div');
   panel.setAttribute('id', 'clotho-picker-panel');
   panel.setAttribute('class', 'clotho-picker-panel');
