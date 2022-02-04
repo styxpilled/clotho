@@ -90,8 +90,12 @@ function createPanel(diff: Object) {
     panel.appendChild(p);
   }
   panel.style.position = "absolute";
-  panel.style.left = `${pointerX}px`;
   panel.style.top = `${pointerY}px`;
-
+  
   document.body.appendChild(panel);
+  if (pointerX + panel.clientWidth > document.body.clientWidth) {
+    panel.style.left = (pointerX - panel.offsetWidth) + 'px';
+  } else {
+    panel.style.left = (pointerX) + 'px';
+  }
 }
