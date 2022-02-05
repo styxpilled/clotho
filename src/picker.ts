@@ -1,7 +1,8 @@
 import browser from 'webextension-polyfill';
-import { pxToRem } from './lib/helpers';
+import { pxToRem, remToPx, onceOff } from './lib/helpers';
 
 let active: boolean;
+let once: boolean = false;
 let pointerX: number, pointerY: number;
 
 // Unique ID for the className.
@@ -13,24 +14,30 @@ let panel: HTMLElement = null;
 let fontSize: number = 16;
 
 browser.storage.onChanged.addListener((changes) => {
+  if (changes.remove.newValue && panel != null) panel.remove();
+  if (changes.once && changes.once.newValue) {
+    once = changes.once.newValue;
+  }
   if (changes.active) {
     active = changes.active.newValue;
-    if (active) {
-      console.log('active');
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('click', onMouseClick), false;
-    } else {
-      console.log('inactive');
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('click', onMouseClick);
-    }
+    if (active) add()
+    else remove()
     prevTarget.classList.remove(clothoOutline);
     prevTarget = null;
-    panel.remove();
   }
 });
 
-const onMouseMove = (event: MouseEvent) => {
+function add() {
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('click', onMouseClick), false;
+}
+
+function remove() {
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('click', onMouseClick);
+}
+
+function onMouseMove(event: MouseEvent) {
   pointerX = event.pageX;
   pointerY = event.pageY;
   const target = event.target as HTMLElement;
@@ -43,8 +50,8 @@ const onMouseMove = (event: MouseEvent) => {
   }
 }
 
-const onMouseClick = (event: MouseEvent) => {
-  if (active) {
+function onMouseClick(event: MouseEvent) {
+  if (active || once) {
     const target = event.target as HTMLElement;
     const dummy = document.createElement('div');
     dummy.setAttribute('id', 'clotho-dummy-element');
@@ -58,6 +65,9 @@ const onMouseClick = (event: MouseEvent) => {
     }
 
     createPanel(diff);
+    if (once) {
+      onceOff();
+    }
   }
 }
 function removeRootStyles(target: HTMLElement, dummy: HTMLElement): Object {
@@ -108,5 +118,6 @@ function createPanel(diff: Object) {
     const element = diff[prop];
     console.log(element);
     console.log(pxToRem(element, fontSize));
+    console.log(remToPx(element, fontSize));
   }
 }

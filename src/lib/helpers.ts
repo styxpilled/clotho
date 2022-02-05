@@ -1,17 +1,35 @@
 import browser from 'webextension-polyfill';
 
-export const toggle = (active: boolean) => {
+export function toggle(active: boolean) {
   browser.storage.local.set({
-    active: !active
+    active: !active,
+    once: false,
+    remove: true,
   });
   return !active;
 };
 
-export function pxToRem(px: string, fontSize: number) {
-  // regex that matches any amount digits + px
+export function onceOn () {
+  browser.storage.local.set({
+    active: true,
+    once: true,
+    remove: false,
+  });
+  return true;
+};
+
+export function onceOff () {
+  browser.storage.local.set({
+    active: false,
+    once: false,
+    remove: false,
+  });
+  return true;
+};
+
+export function pxToRem(value: string, fontSize: number) {
   try {
-    const pxRegex = /\d+px/g;
-    const matches = px.match(pxRegex);
+    const matches = String(value).match(/\d+px/g);
     let result: string;
     if (matches) {
       result = matches.map(match => {
@@ -19,7 +37,7 @@ export function pxToRem(px: string, fontSize: number) {
         return `${(px / fontSize).toFixed(2)}rem`;
       }).join(' ');
     } else {
-      result = px;
+      result = value;
     }
     return result;
   } catch (e) {
@@ -28,4 +46,21 @@ export function pxToRem(px: string, fontSize: number) {
   }
 };
 
-export const remToPx = (rem: number, fontSize: number) => `${rem * fontSize}px`;
+export function remToPx(value: string, fontSize: number) {
+  try {
+    const matches = String(value).match(/\d+rem/g);
+    let result: string;
+    if (matches) {
+      result = matches.map(match => {
+        const rem = parseFloat(match.replace(/rem/, ''));
+        return `${(rem * fontSize).toFixed(2)}rem`;
+      }).join(' ');
+    } else {
+      result = value;
+    }
+    return result;
+  } catch (e) {
+    console.log(e);
+    return "0";
+  }
+};
