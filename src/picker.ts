@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill';
+import { pxToRem } from './lib/helpers';
 
 let active: boolean;
 let pointerX: number, pointerY: number;
@@ -14,30 +15,35 @@ let fontSize: number = 16;
 browser.storage.onChanged.addListener((changes) => {
   if (changes.active) {
     active = changes.active.newValue;
+    if (active) {
+      console.log('active');
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('click', onMouseClick), false;
+    } else {
+      console.log('inactive');
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('click', onMouseClick);
+    }
     prevTarget.classList.remove(clothoOutline);
     prevTarget = null;
     panel.remove();
   }
 });
 
-
-// Mouse listener for any move event on the current document.
-document.addEventListener('mousemove', (event) => {
+const onMouseMove = (event: MouseEvent) => {
   pointerX = event.pageX;
   pointerY = event.pageY;
-  if (active) {
-    const target = event.target as HTMLElement;
-    if (prevTarget != target) {
-      if (prevTarget != null) {
-        prevTarget.classList.remove(clothoOutline);
-      }
-      target.classList.add(clothoOutline);
-      prevTarget = target;
+  const target = event.target as HTMLElement;
+  if (prevTarget != target) {
+    if (prevTarget != null) {
+      prevTarget.classList.remove(clothoOutline);
     }
+    target.classList.add(clothoOutline);
+    prevTarget = target;
   }
-}, false);
+}
 
-document.addEventListener('click', (event) => {
+const onMouseClick = (event: MouseEvent) => {
   if (active) {
     const target = event.target as HTMLElement;
     const dummy = document.createElement('div');
@@ -53,8 +59,7 @@ document.addEventListener('click', (event) => {
 
     createPanel(diff);
   }
-}, false);
-
+}
 function removeRootStyles(target: HTMLElement, dummy: HTMLElement): Object {
   let componentStyle = window.getComputedStyle(target);
   let windowStyle = window.getComputedStyle(dummy);
@@ -66,10 +71,11 @@ function removeRootStyles(target: HTMLElement, dummy: HTMLElement): Object {
       diff[prop] = componentStyle[prop];
     } else if (prop === 'font-size') {
       fontSize = parseInt(componentStyle[prop]);
-    }  
+    }
     if (prop.replace(/-/g, '').toLowerCase() === lastProp.replace(/-/g, '').toLowerCase()) {
       delete diff[lastProp];
     }
+
     lastProp = prop;
   }
   return diff;
@@ -91,11 +97,16 @@ function createPanel(diff: Object) {
   }
   panel.style.position = "absolute";
   panel.style.top = `${pointerY}px`;
-  
+
   document.body.appendChild(panel);
   if (pointerX + panel.clientWidth > document.body.clientWidth) {
     panel.style.left = (pointerX - panel.offsetWidth) + 'px';
   } else {
     panel.style.left = (pointerX) + 'px';
+  }
+  for (const prop in diff) {
+    const element = diff[prop];
+    console.log(element);
+    console.log(pxToRem(element, fontSize));
   }
 }

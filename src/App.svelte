@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
   import browser from 'webextension-polyfill';
   let counter = 0;
-  let active = true;
+  let active = false;
 
   onMount(() => {
     const u = setInterval(() => {

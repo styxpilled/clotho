@@ -22,13 +22,12 @@ export default [
     ],
   },
   {
-  input: ['src/**/*.ts'],
+  input: ['src/picker.ts'],
   output: {
-    format: 'esm',
+    format: 'iife',
     dir: 'public/build',
   },
   plugins: [
-    multi(),
     typescript(),
     resolve({browser: true}),
     commonjs(),
