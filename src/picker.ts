@@ -38,10 +38,13 @@ function remove() {
 }
 
 function onMouseMove(event: MouseEvent) {
-  pointerX = event.pageX;
-  pointerY = event.pageY;
   const target = event.target as HTMLElement;
-  if (prevTarget != target) {
+  if (!(
+    target.parentElement?.classList.contains('clotho-picker-panel') ||
+    target.classList.contains('clotho-picker-panel') &&
+    prevTarget != target)) {
+    pointerX = event.pageX;
+    pointerY = event.pageY;
     if (prevTarget != null) {
       prevTarget.classList.remove(clothoOutline);
     }
@@ -51,8 +54,9 @@ function onMouseMove(event: MouseEvent) {
 }
 
 function onMouseClick(event: MouseEvent) {
-  if (active || once) {
-    const target = event.target as HTMLElement;
+  const target = event.target as HTMLElement;
+
+  if (target.closest('clotho-picker-panel') == null) {
     const dummy = document.createElement('div');
     dummy.setAttribute('id', 'clotho-dummy-element');
     document.body.appendChild(dummy);
@@ -96,6 +100,13 @@ function createPanel(diff: Object) {
   panel.setAttribute('id', 'clotho-picker-panel');
   panel.setAttribute('class', 'clotho-picker-panel');
 
+  let btn = document.createElement("button");
+  btn.innerHTML = "Save";
+  btn.onclick = function () {
+    alert("Button is clicked");
+  };
+  panel.appendChild(btn);
+
   const p = document.createElement('p');
   p.innerText = `fontsize: ${fontSize}`;
   panel.appendChild(p);
@@ -114,10 +125,10 @@ function createPanel(diff: Object) {
   } else {
     panel.style.left = (pointerX) + 'px';
   }
-  for (const prop in diff) {
-    const element = diff[prop];
-    console.log(element);
-    console.log(pxToRem(element, fontSize));
-    console.log(remToPx(element, fontSize));
-  }
+  // for (const prop in diff) {
+  //   const element = diff[prop];
+  //   console.log(element);
+  //   console.log(pxToRem(element, fontSize));
+  //   console.log(remToPx(element, fontSize));
+  // }
 }
