@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { toggle } from '../lib/helpers';
   import browser from 'webextension-polyfill';
   let counter = 0;
   let active = false;
@@ -13,20 +14,16 @@
       clearInterval(u)
     }
   })
+  const toggleClotho = () => active = toggle(active);
+  
   const openOptions = () =>  {
     browser.runtime.openOptionsPage().then();
-  };
-  const toggle = () => {
-    browser.storage.local.set({
-      active: !active
-    });
-    active = !active;
   };
 </script>
 
 <h1>Welcome to Clotho {counter}</h1>
 <button on:click="{openOptions}">Open Options</button>
-<button on:click="{toggle}">Toggle Clotho</button>
+<button on:click="{toggleClotho}">Toggle Clotho</button>
 <p>This is an early beta</p>
 
 <style>

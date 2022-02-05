@@ -7,4 +7,4 @@ const app = new Options({
 	}
 });
 
-export default app
+export default app;
