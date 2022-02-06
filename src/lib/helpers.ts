@@ -64,3 +64,12 @@ export function remToPx(value: string, fontSize: number) {
     return "0";
   }
 };
+
+export function rgbToHex(value: string) {
+  const matches = String(value).match(/rgb\((\d+),\s?(\d+),\s?(\d+)\)/);
+  if (matches) {
+    return `#${matches.slice(1).map(x => x.length === 1 ? `0${x}` : x).join('')}`;
+  } else {
+    return value;
+  }
+};

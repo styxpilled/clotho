@@ -2,7 +2,7 @@
   "extends": "@tsconfig/svelte/tsconfig.json",
 	"compilerOptions": {
     "lib": [
-      "ES6",
+      "esnext",
       "DOM"
     ],
 		"baseUrl": ".",

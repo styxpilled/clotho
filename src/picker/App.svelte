@@ -2,11 +2,12 @@
   import browser from "webextension-polyfill";
   import Picker from './Picker.svelte';
   import { onceOff } from '../lib/helpers';
+  import { generateShorthand, removeRootStyles } from '../lib/shorthand';
   export let name;
   let active: boolean;
   let once: boolean = false;
   let pointerX: number, pointerY: number;
-  let w;
+  let diff;
   let clicked: boolean = false;
   let staticPointerX: number, staticPointerY: number;
 
@@ -16,13 +17,12 @@
   let prevTarget: HTMLElement = null;
 
   browser.storage.onChanged.addListener((changes) => {
-    // if (changes.remove.newValue && panel != null) panel.remove();
     if (changes.once && changes.once.newValue) {
       once = changes.once.newValue;
     }
     if (changes.active) {
       active = changes.active.newValue;
-      clicked = false;
+      // clicked = false;
       if (active) add();
       else remove();
       prevTarget.classList.remove(clothoOutline);
@@ -45,23 +45,22 @@
     clicked = true;
     staticPointerX = pointerX;
     staticPointerY = pointerY;
-    // if (target.closest('clotho-picker-panel') == null) {
-    //   const dummy = document.createElement('div');
-    //   dummy.setAttribute('id', 'clotho-dummy-element');
-    //   document.body.appendChild(dummy);
-
-    //   // const diff = removeRootStyles(target, dummy);
-    //   dummy.remove();
-
-    // if (panel != null) {
-    //   panel.remove();
-    // }
-
-    // createPanel(diff);
+    console.log(target.style);
+    
+    if (target.closest('clotho-picker-panel') == null) {
+      const dummy = document.createElement('div');
+      dummy.setAttribute('id', 'clotho-dummy-element');
+      document.body.appendChild(dummy);
+      let fontSize: number;
+      [diff, fontSize] = removeRootStyles(target, dummy);
+      diff = generateShorthand(diff, fontSize);
+      dummy.remove();
+      console.log(diff);
+      
     if (once) {
       onceOff();
     }
-    // }
+    }
   }
 
   function onMouseMove(event: MouseEvent) {
@@ -84,5 +83,5 @@
   }
 </script>
 {#if clicked}
-  <Picker name={name} pointerX={staticPointerX} pointerY={staticPointerY} />
+  <Picker name={name} style={diff} pointerX={staticPointerX} pointerY={staticPointerY} />
 {/if}
