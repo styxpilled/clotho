@@ -5,6 +5,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from '@rollup/plugin-typescript';
 import multi from 'rollup-plugin-multi-input';
 import css from 'rollup-plugin-css-only';
+import preprocess from 'svelte-preprocess';
 
 export default [
   {
@@ -63,7 +64,9 @@ export default [
 	},
 	plugins: [
     typescript(),
-		svelte(),
+		svelte({
+      preprocess: preprocess()
+    }),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
 		css({ output: 'bundle.css' }),
