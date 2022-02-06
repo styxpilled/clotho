@@ -4,6 +4,7 @@ import postcss from 'rollup-plugin-postcss';
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from '@rollup/plugin-typescript';
 import multi from 'rollup-plugin-multi-input';
+import css from 'rollup-plugin-css-only';
 
 export default [
   {
@@ -42,7 +43,7 @@ export default [
     multi(),
     typescript(),
     svelte({
-      include: 'src/**/*.svelte',
+      include: 'src/pages/*.svelte',
     }),
     postcss(),
     resolve({
@@ -52,4 +53,24 @@ export default [
     commonjs(),
   ],
 },
+{
+  input: 'src/picker/main.ts',
+	output: {
+		sourcemap: true,
+		format: 'iife',
+		name: 'app',
+    dir: 'public/build/picker'
+	},
+	plugins: [
+    typescript(),
+		svelte(),
+		// we'll extract any component CSS out into
+		// a separate file - better for performance
+		css({ output: 'bundle.css' }),
+		resolve({
+			browser: true,
+			dedupe: ['svelte']
+		}),
+		commonjs(),]
+}
 ];

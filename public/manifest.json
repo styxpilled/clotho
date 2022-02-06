@@ -23,10 +23,11 @@
         "<all_urls>"
       ],
       "css": [
-          "build/picker.css"
+          "build/picker.css",
+          "build/picker/bundle.css"
       ],
       "js": [
-          "build/picker.js"
+          "build/picker/main.js"
       ]
     }
   ],
