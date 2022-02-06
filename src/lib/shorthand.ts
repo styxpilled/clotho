@@ -3,8 +3,7 @@ import { pxToRem, rgbToHex } from "./helpers";
 export function generateShorthand(longhand: Object, fontSize: number) {
   const shorthand = {};
   for (const [style, property] of Object.entries(longhand)) {
-    // if after removing px from the end, the value isn't 0 then add it to the shorthand
-    if (property.replace(/px$/, '') !== '0') {
+    if (String(property).replace(/px$/, '') !== '0') {
       shorthand[style] = property;
       shorthand[style] = pxToRem(shorthand[style], fontSize);
       shorthand[style] = rgbToHex(shorthand[style]);

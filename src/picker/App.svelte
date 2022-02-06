@@ -45,7 +45,6 @@
     clicked = true;
     staticPointerX = pointerX;
     staticPointerY = pointerY;
-    console.log(target.style);
     
     if (target.closest('clotho-picker-panel') == null) {
       const dummy = document.createElement('div');
@@ -53,13 +52,12 @@
       document.body.appendChild(dummy);
       let fontSize: number;
       [diff, fontSize] = removeRootStyles(target, dummy);
-      diff = generateShorthand(diff, fontSize);
       dummy.remove();
-      console.log(diff);
+      diff = generateShorthand(diff, fontSize);
       
-    if (once) {
-      onceOff();
-    }
+      if (once) {
+        onceOff();
+      }
     }
   }
 

@@ -68,7 +68,7 @@ export function remToPx(value: string, fontSize: number) {
 export function rgbToHex(value: string) {
   const matches = String(value).match(/rgb\((\d+),\s?(\d+),\s?(\d+)\)/);
   if (matches) {
-    return `#${matches.slice(1).map(x => x.length === 1 ? `0${x}` : x).join('')}`;
+    return `#${matches.slice(1).map(x => x.length === 1 ? `0${x}` : x).map(x => parseInt(x, 10).toString(16)).join('')}`;
   } else {
     return value;
   }
