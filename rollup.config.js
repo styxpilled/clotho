@@ -44,7 +44,7 @@ export default [
     multi(),
     typescript(),
     svelte({
-      include: 'src/pages/*.svelte',
+      preprocess: preprocess(),
     }),
     postcss(),
     resolve({
@@ -57,7 +57,6 @@ export default [
 {
   input: 'src/picker/main.ts',
 	output: {
-		sourcemap: true,
 		format: 'iife',
 		name: 'app',
     dir: 'public/build/picker'

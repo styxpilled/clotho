@@ -3,7 +3,6 @@
   import Picker from './Picker.svelte';
   import { onceOff } from '../lib/helpers';
   import { generateShorthand, removeRootStyles } from '../lib/shorthand';
-  export let name;
   let active: boolean;
   let once: boolean = false;
   let pointerX: number, pointerY: number;
@@ -81,5 +80,5 @@
   }
 </script>
 {#if clicked}
-  <Picker name={name} style={diff} pointerX={staticPointerX} pointerY={staticPointerY} />
+  <Picker style={diff} pointerX={staticPointerX} pointerY={staticPointerY} />
 {/if}

@@ -10,7 +10,7 @@
 			"$lib": ["src/lib"],
 			"$lib/*": ["src/lib/*"]
 		},
-    "types": ["webextension-polyfill"],
+    "types": ["webextension-polyfill", "svelte"],
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true
   },

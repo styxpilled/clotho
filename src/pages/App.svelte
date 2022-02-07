@@ -1,31 +1,34 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { toggle, onceOn } from '../lib/helpers';
-  import browser from 'webextension-polyfill';
+  import { onMount } from "svelte";
+  import { toggle, onceOn } from "../lib/helpers";
+  import Wrapper from "../components/Wrapper.svelte";
+  import browser from "webextension-polyfill";
   let counter = 0;
   let active = false;
 
   onMount(() => {
     const u = setInterval(() => {
-      counter = counter + 1
-    }, 1000)
+      counter = counter + 1;
+    }, 1000);
 
     return () => {
-      clearInterval(u)
-    }
-  })
-  const toggleClotho = () => active = toggle(active);
-  const toggleOnce = () => active = onceOn();
-  const openOptions = () =>  {
+      clearInterval(u);
+    };
+  });
+  const toggleClotho = () => (active = toggle(active));
+  const toggleOnce = () => (active = onceOn());
+  const openOptions = () => {
     browser.runtime.openOptionsPage().then();
   };
 </script>
 
-<h1>Welcome to Clotho {counter}</h1>
-<button on:click="{openOptions}">Open Options</button>
-<button on:click="{toggleClotho}">Toggle Clotho</button>
-<button on:click="{toggleOnce}">Pick Style</button>
-<p>This is an early beta</p>
+<Wrapper>
+  <h1>Welcome to Clotho {counter}</h1>
+  <button on:click={openOptions}>Open Options</button>
+  <button on:click={toggleClotho}>Toggle Clotho</button>
+  <button on:click={toggleOnce}>Pick Style</button>
+  <p>This is an early beta</p>
+</Wrapper>
 
 <style>
   h1 {

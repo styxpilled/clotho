@@ -1,51 +1,58 @@
 <script lang="ts">
-  export let name: string;
+  import Wrapper from "../components/Wrapper.svelte";
+  import { getHexLightness } from "../lib/helpers";
   export let pointerX: number, pointerY: number;
   export let style;
   let w: number;
 </script>
 
 <main bind:clientWidth={w} style:top="{pointerY}px" style:left="{pointerX}px">
-  <p>size: {w}px</p>
-	<h1>i am a {name}!</h1>
-	<p>I AM A SVELTE COMPONENT.</p>
-  <code>
-    {'.style {'}<br>
-    {#each Object.entries(style) as [property, value]}
-      <property>{property}</property>: <value>{value}</value>;
-      {#if String(value).includes('#')}
-        <preview style:background-color={String(value)} />
-      {/if}
-      <br>
-    {/each}
-    {'}'}
-  </code>  
+  <Wrapper>
+    <p>size: {w}px</p>
+    <code>
+      {".style {"}<br />
+      {#each Object.entries(style) as [property, value]}
+        <property>{property}</property>: <value>{value}</value>;
+        {#if String(value).includes("#")}
+          <preview
+            style:background-color={String(value)}
+            style:border-color={getHexLightness(String(value))
+              ? "#fff"
+              : "#000"}
+          />
+        {/if}
+        <br />
+      {/each}
+      {"}"}
+    </code>
+  </Wrapper>
 </main>
 
 <style>
   code {
-    font-family: 'Courier New', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Courier New", Tahoma, Geneva, Verdana, sans-serif;
     font-size: medium;
     font-weight: 700;
-    color: #EEEEEE;
+    color: #eeeeee;
     white-space: nowrap;
   }
   property {
-    color: #4FC3F7;
+    color: #4fc3f7;
     margin-left: 1rem;
   }
   value {
-    color: #BA68C8;
+    color: #ba68c8;
   }
   preview {
     display: inline-block;
     height: 1rem;
     width: 1rem;
     border-radius: 0.5rem;
+    border-style: solid;
   }
   main {
     padding: 1rem;
-    color: #9E9E9E;
+    color: #9e9e9e;
     position: absolute;
     background-color: #212121;
   }
