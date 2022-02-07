@@ -4,24 +4,22 @@
   export let style;
 </script>
 
-  <Wrapper>
-    <code>
-      {".style {"}<br />
-      {#each Object.entries(style) as [property, value]}
-        <property>{property}</property>: <value>{value}</value>;
-        {#if String(value).includes("#")}
-          <preview
-            style:background-color={String(value)}
-            style:border-color={getHexLightness(String(value))
-              ? "#fff"
-              : "#000"}
-          />
-        {/if}
-        <br />
-      {/each}
-      {"}"}
-    </code>
-  </Wrapper>
+<Wrapper>
+  <code>
+    {".style {"}<br />
+    {#each Object.entries(style) as [property, value]}
+      <property>{property}</property>: <value>{value}</value>;
+      {#if String(value).includes("#")}
+        <preview
+          style:background-color={String(value)}
+          style:border-color={getHexLightness(String(value)) ? "#fff" : "#000"}
+        />
+      {/if}
+      <br />
+    {/each}
+    {"}"}
+  </code>
+</Wrapper>
 
 <style>
   code {

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { copyToClipboard } from '../lib/helpers';
+  import { copyToClipboard } from "../lib/helpers";
 </script>
 
 <div class="wrapper">
   <div class="container">
-    <button on:click={() => copyToClipboard('test')}>save</button>
+    <button on:click={() => copyToClipboard("test")}>save</button>
     <button>cancel</button>
     <button>view</button>
   </div>
@@ -16,7 +16,7 @@
 
 <style>
   button {
-    background-color: #4caf50; /* Green */
+    background-color: #4caf50;
     border: none;
     color: white;
     padding: 0.2rem 1rem;
@@ -24,13 +24,11 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    /* put the button at the end using flex */
     align-self: flex-end;
   }
   .wrapper {
     display: flex;
     flex-direction: row;
-    
   }
   .container {
     display: flex;

@@ -1,8 +1,8 @@
 <script lang="ts">
   import browser from "webextension-polyfill";
-  import Picker from './Picker.svelte';
-  import { onceOff } from '../lib/helpers';
-  import { generateShorthand, removeRootStyles } from '../lib/shorthand';
+  import Picker from "./Picker.svelte";
+  import { onceOff } from "../lib/helpers";
+  import { generateShorthand, removeRootStyles } from "../lib/shorthand";
   let active: boolean;
   let once: boolean = false;
   let pointerX: number, pointerY: number;
@@ -41,21 +41,21 @@
   }
 
   function onMouseClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;    
-    if (target.closest('#clotho-picker-panel') == null) {
+    const target = event.target as HTMLElement;
+    if (target.closest("#clotho-picker-panel") == null) {
       clicked = true;
       staticPointerX = pointerX;
       staticPointerY = pointerY;
 
-      const dummy = document.createElement('div');
-      dummy.setAttribute('id', 'clotho-dummy-element');
+      const dummy = document.createElement("div");
+      dummy.setAttribute("id", "clotho-dummy-element");
       document.body.appendChild(dummy);
-      
+
       let fontSize: number;
       [diff, fontSize] = removeRootStyles(target, dummy);
       dummy.remove();
       diff = generateShorthand(diff, fontSize);
-      
+
       if (once) {
         onceOff();
       }
@@ -75,11 +75,17 @@
     }
   }
 </script>
+
 {#if clicked}
-<main id="clotho-picker-panel"class="clotho-picker-panel" bind:clientWidth={w} style:top="{staticPointerY}px" style:left="{staticPointerX}px">
-  <!-- <p>size: {w}px</p> -->
-  <Picker style={diff} />
-</main>
+  <main
+    id="clotho-picker-panel"
+    class="clotho-picker-panel"
+    bind:clientWidth={w}
+    style:top="{staticPointerY}px"
+    style:left="{staticPointerX}px"
+  >
+    <Picker style={diff} />
+  </main>
 {/if}
 
 <style>
