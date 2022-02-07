@@ -83,3 +83,9 @@ export function getHexLightness(hex: string) {
 
   return luma > 125 ? true : false;
 }
+
+export const copyToClipboard = str => {
+  if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+    return navigator.clipboard.writeText(str);
+  return Promise.reject('The Clipboard API is not available.');
+};

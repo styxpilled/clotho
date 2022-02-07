@@ -1,6 +1,10 @@
+<script lang="ts">
+  import { copyToClipboard } from '../lib/helpers';
+</script>
+
 <div class="wrapper">
   <div class="container">
-    <button>save</button>
+    <button on:click={() => copyToClipboard('test')}>save</button>
     <button>cancel</button>
     <button>view</button>
   </div>

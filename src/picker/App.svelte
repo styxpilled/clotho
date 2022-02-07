@@ -7,6 +7,7 @@
   let once: boolean = false;
   let pointerX: number, pointerY: number;
   let diff;
+  let w;
   let clicked: boolean = false;
   let staticPointerX: number, staticPointerY: number;
 
@@ -40,15 +41,16 @@
   }
 
   function onMouseClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    clicked = true;
-    staticPointerX = pointerX;
-    staticPointerY = pointerY;
-    
-    if (target.closest('clotho-picker-panel') == null) {
+    const target = event.target as HTMLElement;    
+    if (target.closest('#clotho-picker-panel') == null) {
+      clicked = true;
+      staticPointerX = pointerX;
+      staticPointerY = pointerY;
+
       const dummy = document.createElement('div');
       dummy.setAttribute('id', 'clotho-dummy-element');
       document.body.appendChild(dummy);
+      
       let fontSize: number;
       [diff, fontSize] = removeRootStyles(target, dummy);
       dummy.remove();
@@ -62,13 +64,7 @@
 
   function onMouseMove(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (
-      !(
-        target.parentElement?.classList.contains("clotho-picker-panel") ||
-        (target.classList.contains("clotho-picker-panel") &&
-          prevTarget != target)
-      )
-    ) {
+    if (target.closest("#clotho-picker-panel") == null) {
       pointerX = event.pageX;
       pointerY = event.pageY;
       if (prevTarget != null) {
@@ -80,5 +76,17 @@
   }
 </script>
 {#if clicked}
-  <Picker style={diff} pointerX={staticPointerX} pointerY={staticPointerY} />
+<main id="clotho-picker-panel"class="clotho-picker-panel" bind:clientWidth={w} style:top="{staticPointerY}px" style:left="{staticPointerX}px">
+  <!-- <p>size: {w}px</p> -->
+  <Picker style={diff} />
+</main>
 {/if}
+
+<style>
+  main {
+    padding: 1rem;
+    color: #9e9e9e;
+    position: absolute;
+    background-color: #212121;
+  }
+</style>

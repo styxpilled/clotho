@@ -1,14 +1,10 @@
 <script lang="ts">
   import Wrapper from "../components/Wrapper.svelte";
   import { getHexLightness } from "../lib/helpers";
-  export let pointerX: number, pointerY: number;
   export let style;
-  let w: number;
 </script>
 
-<main bind:clientWidth={w} style:top="{pointerY}px" style:left="{pointerX}px">
   <Wrapper>
-    <p>size: {w}px</p>
     <code>
       {".style {"}<br />
       {#each Object.entries(style) as [property, value]}
@@ -26,7 +22,6 @@
       {"}"}
     </code>
   </Wrapper>
-</main>
 
 <style>
   code {
@@ -49,11 +44,5 @@
     width: 1rem;
     border-radius: 0.5rem;
     border-style: solid;
-  }
-  main {
-    padding: 1rem;
-    color: #9e9e9e;
-    position: absolute;
-    background-color: #212121;
   }
 </style>
