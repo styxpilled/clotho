@@ -23,56 +23,46 @@ export default [
     ],
   },
   {
-  input: ['src/picker.ts'],
-  output: {
-    format: 'iife',
-    dir: 'public/build',
+    input: ['src/pages/*.ts'],
+    output: {
+      format: 'esm',
+      dir: 'public/build',
+    },
+    plugins: [
+      multi(),
+      typescript(),
+      svelte({
+        preprocess: preprocess(),
+      }),
+      postcss(),
+      resolve({
+        browser: true,
+        dedupe: ["svelte"],
+      }),
+      commonjs(),
+    ],
   },
-  plugins: [
-    typescript(),
-    resolve({browser: true}),
-    commonjs(),
-  ],
-},
-{
-  input: ['src/pages/*.ts'],
-  output: {
-    format: 'esm',
-    dir: 'public/build',
-  },
-  plugins: [
-    multi(),
-    typescript(),
-    svelte({
-      preprocess: preprocess(),
-    }),
-    postcss(),
-    resolve({
-      browser: true,
-      dedupe: ["svelte"],
-    }),
-    commonjs(),
-  ],
-},
-{
-  input: 'src/picker/main.ts',
-	output: {
-		format: 'iife',
-		name: 'app',
-    dir: 'public/build/picker'
-	},
-	plugins: [
-    typescript(),
-		svelte({
-      preprocess: preprocess()
-    }),
-		// we'll extract any component CSS out into
-		// a separate file - better for performance
-		css({ output: 'bundle.css' }),
-		resolve({
-			browser: true,
-			dedupe: ['svelte']
-		}),
-		commonjs(),]
-}
+  {
+    input: 'src/picker/main.ts',
+    output: {
+      format: 'iife',
+      name: 'app',
+      dir: 'public/build/picker'
+    },
+    plugins: [
+      typescript({
+        sourceMap: true,
+      }),
+      svelte({
+        preprocess: preprocess()
+      }),
+      // we'll extract any component CSS out into
+      // a separate file - better for performance
+      css({ output: 'bundle.css' }),
+      resolve({
+        browser: true,
+        dedupe: ['svelte']
+      }),
+      commonjs(),]
+  }
 ];

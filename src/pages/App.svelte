@@ -15,18 +15,14 @@
       clearInterval(u);
     };
   });
-  const toggleClotho = () => (active = toggle(active));
-  const toggleOnce = () => (active = onceOn());
-  const openOptions = () => {
-    browser.runtime.openOptionsPage().then();
-  };
 </script>
 
 <Wrapper>
   <h1>Welcome to Clotho {counter}</h1>
-  <button on:click={openOptions}>Open Options</button>
-  <button on:click={toggleClotho}>Toggle Clotho</button>
-  <button on:click={toggleOnce}>Pick Style</button>
+  <button on:click={() => browser.runtime.openOptionsPage().then()}>
+    Open Options</button>
+  <button on:click={() => (active = toggle(active))}>Toggle Clotho</button>
+  <button on:click={() => (active = onceOn())}>Pick Style</button>
   <p>This is an early beta</p>
 </Wrapper>
 
