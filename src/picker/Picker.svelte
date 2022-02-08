@@ -3,9 +3,6 @@
   import { getHexLightness } from "../lib/helpers";
   import { createStyleList } from "../lib/shorthand"
   export let style: Object;
-
-
-
 </script>
 
 <Wrapper style={style}>
@@ -29,6 +26,7 @@
     {"}"}
   </code>
 </Wrapper>
+
 <style>
   code {
     font-family: "Courier New", Tahoma, Geneva, Verdana, sans-serif;
