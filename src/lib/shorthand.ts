@@ -23,7 +23,7 @@ export function removeRootStyles(target: HTMLElement, dummy: HTMLElement): [Obje
   let lastProp: string = '';
   let diff = {};
   for (const prop in componentStyle) {
-    if (componentStyle[prop] !== windowStyle[prop] && !prop.startsWith('-')) {
+    if (componentStyle[prop] !== windowStyle[prop] && !prop.startsWith('-') && isNaN(parseInt(prop))) {
       diff[prop] = componentStyle[prop];
     } else if (prop === 'font-size') {
       fontSize = parseInt(componentStyle[prop]);
@@ -34,4 +34,15 @@ export function removeRootStyles(target: HTMLElement, dummy: HTMLElement): [Obje
     lastProp = prop;
   }
   return [diff, fontSize];
+}
+
+export function createStyleList(style: Object): string {
+  let stylelist = '';
+  for (const property in style) {
+    if (Object.prototype.hasOwnProperty.call(style, property)) {
+      const element = style[property];
+      stylelist += `${property}: ${element};`;
+    }
+  }
+  return stylelist;
 }

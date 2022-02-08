@@ -1,10 +1,12 @@
 <script lang="ts">
   import Wrapper from "../components/Wrapper.svelte";
   import { getHexLightness } from "../lib/helpers";
-  export let style;
+  import { createStyleList } from "../lib/shorthand"
+  export let style: Object;
 </script>
 
 <Wrapper>
+  <p style={createStyleList(style)}>TEST</p>
   <code>
     {".style {"}<br />
     {#each Object.entries(style) as [property, value]}
