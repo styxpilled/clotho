@@ -9,7 +9,7 @@ export function toggle(active: boolean) {
   return !active;
 };
 
-export function onceOn () {
+export function onceOn() {
   browser.storage.local.set({
     active: true,
     once: true,
@@ -18,7 +18,7 @@ export function onceOn () {
   return true;
 };
 
-export function onceOff () {
+export function onceOff() {
   browser.storage.local.set({
     active: false,
     once: false,
@@ -26,6 +26,21 @@ export function onceOff () {
   });
   return true;
 };
+
+export function saveStyle(style: Object, name: string) {
+  browser.storage.local.get('styles').then((result) => {
+    const styles = result.styles || {};
+    styles[name] = style;
+    browser.storage.local.set({
+      styles,
+    });
+  });
+}
+
+export async function getStyles() {
+  const result = await browser.storage.local.get('styles');
+  return result.styles || {};
+}
 
 export function pxToRem(value: string, fontSize: number) {
   try {

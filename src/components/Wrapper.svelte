@@ -1,14 +1,35 @@
 <script lang="ts">
-  import { copyToClipboard } from "../lib/helpers";
+  import { copyToClipboard, saveStyle, getStyles } from "../lib/helpers";
+
+  export let style = {};
+  let styles = {};
+
 </script>
 
 <div class="wrapper">
   <div class="container">
-    <button on:click={() => copyToClipboard("test")}>save</button>
+    <button on:click={() => copyToClipboard("test")}>copy</button>
+    <button on:click={() => saveStyle(style, 'newstyle')}>save</button>
     <button>cancel</button>
-    <button>view</button>
+    <button on:click={() => styles = getStyles()}>view</button>
   </div>
   <div class="panel">
+    {#await styles}
+      {styles}
+    {:then newstyles} 
+      {".style {"}<br />
+    {#each Object.entries(newstyles) as [property, value]}
+      {#each property as prop}
+        {prop}
+      {/each}
+      {#each Object.entries(property) as [prop, val]}
+        {prop} {val}
+      {/each}
+        <!-- <property>{property}</property> <value>{value}</value> -->
+      <br />
+    {/each}
+    {"}"}
+    {/await}
     <button>close</button>
     <slot />
   </div>

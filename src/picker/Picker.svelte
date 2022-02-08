@@ -3,9 +3,12 @@
   import { getHexLightness } from "../lib/helpers";
   import { createStyleList } from "../lib/shorthand"
   export let style: Object;
+
+
+
 </script>
 
-<Wrapper>
+<Wrapper style={style}>
   <p style={createStyleList(style)}>TEST</p>
   <code>
     {".style {"}<br />
