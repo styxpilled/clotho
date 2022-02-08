@@ -10,7 +10,11 @@
   <code>
     {".style {"}<br />
     {#each Object.entries(style) as [property, value]}
-      <property>{property}</property>: <value>{value}</value>;
+      {#if value.length > 50}
+        <property>{property}</property>: <value>{value.slice(0, value.slice(0, 50).lastIndexOf(' '))}</value>...;
+      {:else}
+        <property>{property}</property>: <value>{value}</value>;
+      {/if}
       {#if String(value).includes("#")}
         <preview
           style:background-color={String(value)}
@@ -22,7 +26,6 @@
     {"}"}
   </code>
 </Wrapper>
-
 <style>
   code {
     font-family: "Courier New", Tahoma, Geneva, Verdana, sans-serif;
@@ -30,6 +33,9 @@
     font-weight: 700;
     color: #eeeeee;
     white-space: nowrap;
+  }
+  p {
+    align-self: center;
   }
   property {
     color: #4fc3f7;
