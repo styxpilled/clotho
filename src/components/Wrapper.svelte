@@ -1,20 +1,18 @@
 <script lang="ts">
-  import { copyToClipboard, saveStyle, getStyles } from "../lib/helpers";
+  import { copyToClipboard, saveStyle, onceOn } from "../lib/helpers";
 
   export let style = {};
-  export let clicked;
-  let view = false;
+  export let gallery = false;
 </script>
 
 <div class="wrapper">
   <div class="container">
     <button on:click={() => copyToClipboard("test")}>copy</button>
     <button on:click={() => saveStyle(style, 'newstyle')}>save</button>
-    <button on:click={() => clicked = false}>cancel</button>
-    <button on:click={() => view = !view}>view</button>
+    <button on:click={() => gallery = !gallery}>view</button>
   </div>
   <div class="panel">
-    <button>close</button>
+    <button on:click={() => (onceOn())}>close</button>
       <slot />
   </div>
 </div>

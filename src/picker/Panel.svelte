@@ -1,11 +1,11 @@
 <script lang="ts">
   import Picker from "../components/Picker.svelte";
-  import Showroom from "../components/Showroom.svelte";
+  import Gallery from "../components/Gallery.svelte";
   import Wrapper from "../components/Wrapper.svelte";
 
   export let posY, posX;
   export let style;
-  export let view;
+  let gallery;
 </script>
 
 <main
@@ -14,9 +14,9 @@
   style:top="{posY}px"
   style:left="{posX}px"
 > 
-<Wrapper style={style} clicked={view}>
-  {#if !view}
-    <Showroom />
+<Wrapper {style} bind:gallery={gallery}>
+  {#if !gallery}
+    <Gallery />
   {:else}
     <Picker style={style} />
   {/if}

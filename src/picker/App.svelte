@@ -1,19 +1,16 @@
 {#if clicked}
-  <Panel posX={staticPointerX} posY={staticPointerY} style={style} view={true}></Panel>
+  <Panel {posX} {posY} {style} ></Panel>
 {/if}
 
 <script lang="ts">
   import browser from "webextension-polyfill";
   import Panel from "./Panel.svelte";
-  import { onceOff } from "../lib/helpers";
   import { generateShorthand, removeRootStyles } from "../lib/shorthand";
   let active: boolean;
-  let once: boolean = false;
   let pointerX: number, pointerY: number;
-  let style;
-  let w;
+  let style: Object;
   let clicked: boolean = false;
-  let staticPointerX: number, staticPointerY: number;
+  let posX: number, posY: number;
 
   const clothoOutline = "clotho-picker-outline";
 
@@ -21,16 +18,18 @@
   let prevTarget: HTMLElement = null;
 
   browser.storage.onChanged.addListener((changes) => {
-    if (changes.once && changes.once.newValue) {
-      once = changes.once.newValue;
-    }
     if (changes.active) {
       active = changes.active.newValue;
-      // clicked = false;
       if (active) add();
       else remove();
       prevTarget.classList.remove(clothoOutline);
       prevTarget = null;
+    }
+    if (changes.remove) {
+      remove();
+      console.log('adjknajdbasjdb');
+      
+      clicked = changes.remove.newValue;
     }
   });
 
@@ -48,8 +47,8 @@
     const target = event.target as HTMLElement;
     if (target.closest("#clotho-picker-panel") == null) {
       clicked = true;
-      staticPointerX = pointerX;
-      staticPointerY = pointerY;
+      posX = pointerX;
+      posY = pointerY;
 
       const dummy = document.createElement("div");
       dummy.setAttribute("id", "clotho-dummy-element");
@@ -59,10 +58,6 @@
       [style, fontSize] = removeRootStyles(target, dummy);
       dummy.remove();
       style = generateShorthand(style, fontSize);
-
-      if (once) {
-        onceOff();
-      }
     }
   }
 
