@@ -3,9 +3,9 @@
   import Gallery from "../components/Gallery.svelte";
   import Wrapper from "../components/Wrapper.svelte";
 
-  export let posY, posX;
-  export let style;
-  let gallery;
+  export let posY: number, posX: number;
+  export let style: Object;
+  let gallery: boolean;
 </script>
 
 <main
