@@ -20,7 +20,7 @@
 <button on:click={() => browser.runtime.openOptionsPage().then()}>
   Open Options</button
 >
-<button on:click={() => (active = toggle(active))}>Toggle Clotho</button>
+<button on:click={() => toggle()}>Toggle Clotho</button>
 <button on:click={() => (active = onceOn())}>Pick Style</button>
 <p>This is an early beta</p>
 

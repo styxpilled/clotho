@@ -1,4 +1,4 @@
-{#if clicked}
+{#if open}
   <Panel {posX} {posY} {style} ></Panel>
 {/if}
 
@@ -9,7 +9,7 @@
   let active: boolean;
   let pointerX: number, pointerY: number;
   let style: Object;
-  let clicked: boolean = false;
+  let open: boolean = false;
   let posX: number, posY: number;
 
   const clothoOutline = "clotho-picker-outline";
@@ -19,6 +19,9 @@
 
   browser.storage.onChanged.addListener((changes) => {
     if (changes.active) {
+      console.log("active changed", changes.active.newValue);
+      
+      open = false;
       active = changes.active.newValue;
       if (active) add();
       else remove();
@@ -26,10 +29,10 @@
       prevTarget = null;
     }
     if (changes.remove) {
-      remove();
+      // remove();
       console.log('adjknajdbasjdb');
       
-      clicked = changes.remove.newValue;
+      open = false;
     }
   });
 
@@ -46,7 +49,7 @@
   function onMouseClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (target.closest("#clotho-picker-panel") == null) {
-      clicked = true;
+      open = true;
       posX = pointerX;
       posY = pointerY;
 

@@ -1,11 +1,13 @@
 import browser from 'webextension-polyfill';
 
-export function toggle(active: boolean) {
-  browser.storage.local.set({
-    active: !active,
-    // remove: true,
+export async function toggle() {
+  browser.storage.local.get('active').then((result) => {
+    const active = result.active || false;
+    browser.storage.local.set({
+      active: !active,
+      remove: true,
+    });
   });
-  return !active;
 };
 
 export function onceOn() {
@@ -18,7 +20,7 @@ export function onceOn() {
 
 export function onceOff() {
   browser.storage.local.set({
-    active: false,
+    active: true,
     remove: true,
   });
   return true;
