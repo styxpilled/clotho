@@ -3,9 +3,10 @@
   import { getHexLightness } from "../lib/helpers";
   import { createStyleList } from "../lib/shorthand"
   export let style: Object;
+  export let clicked;
 </script>
 
-<Wrapper style={style}>
+<Wrapper clicked={clicked} style={style}>
   <p style={createStyleList(style)}>TEST</p>
   <code>
     {".style {"}<br />
@@ -47,9 +48,11 @@
   }
   preview {
     display: inline-block;
+    position: relative;
     height: 1rem;
     width: 1rem;
     border-radius: 0.5rem;
     border-style: solid;
+    top: 0.15rem;
   }
 </style>

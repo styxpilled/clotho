@@ -5,24 +5,26 @@
   let styles = getStyles();
 </script>
 
-{#await styles}
-  {styles}
-{:then newstyles}
+{#await styles then newstyles}
 <code>
-  {#each Object.entries(newstyles) as [property, value]}
+  {#each Object.entries(newstyles) as [stylename, value]}
     <p style={createStyleList(value)}>TEST</p>
-    {`.${property} {`}<br />
+    {`.${stylename} {`}<br />
     {#each Object.entries(value) as [prop, val]}
       {#if val.length > 50}
         <prop>{prop}</prop>:
-        <val>{val.slice(0, val.slice(0, 50).lastIndexOf(" "))}</val>...;<br>
+        <val>{val.slice(0, val.slice(0, 50).lastIndexOf(" "))}</val>...;
       {:else}
-        <prop>{prop}</prop>: <val>{val}</val>;<br>
+        <prop>{prop}</prop>: <val>{val}</val>;
       {/if}
+      {#if String(val).includes("#")}
+        <preview style:background-color={String(val)} />
+      {/if}
+      <br />
     {/each}
-    <br />
+    <!-- <br /> -->
+    {`}`}
   {/each}
-  {"}"}
 </code>
 {/await}
 
@@ -44,11 +46,13 @@
   val {
     color: #ba68c8;
   }
-  /* preview {
+  preview {
     display: inline-block;
+    position: relative;
     height: 1rem;
     width: 1rem;
     border-radius: 0.5rem;
     border-style: solid;
-  } */
+    top: 0.15rem;
+  }
 </style>

@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { toggle, onceOn } from "../lib/helpers";
-  import Wrapper from "../components/Wrapper.svelte";
   import browser from "webextension-polyfill";
   let counter = 0;
   let active = false;
@@ -17,14 +16,13 @@
   });
 </script>
 
-<Wrapper>
-  <h1>Welcome to Clotho {counter}</h1>
-  <button on:click={() => browser.runtime.openOptionsPage().then()}>
-    Open Options</button>
-  <button on:click={() => (active = toggle(active))}>Toggle Clotho</button>
-  <button on:click={() => (active = onceOn())}>Pick Style</button>
-  <p>This is an early beta</p>
-</Wrapper>
+<h1>Welcome to Clotho {counter}</h1>
+<button on:click={() => browser.runtime.openOptionsPage().then()}>
+  Open Options</button
+>
+<button on:click={() => (active = toggle(active))}>Toggle Clotho</button>
+<button on:click={() => (active = onceOn())}>Pick Style</button>
+<p>This is an early beta</p>
 
 <style>
   h1 {

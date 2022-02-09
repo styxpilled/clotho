@@ -84,7 +84,7 @@
     style:top="{staticPointerY}px"
     style:left="{staticPointerX}px"
   >
-    <Picker style={diff} />
+    <Picker clicked={clicked} style={diff} />
   </main>
 {/if}
 

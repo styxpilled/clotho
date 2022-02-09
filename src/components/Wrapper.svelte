@@ -3,6 +3,7 @@
   import Showroom from "./Showroom.svelte";
 
   export let style = {};
+  export let clicked;
   let view = false;
   let styles = getStyles();
 </script>
@@ -11,7 +12,7 @@
   <div class="container">
     <button on:click={() => copyToClipboard("test")}>copy</button>
     <button on:click={() => saveStyle(style, 'newstyle')}>save</button>
-    <button>cancel</button>
+    <button on:click={() => clicked = false}>cancel</button>
     <button on:click={() => view = !view}>view</button>
   </div>
   <div class="panel">
