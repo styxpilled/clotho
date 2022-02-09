@@ -1,12 +1,16 @@
+{#if clicked}
+  <Panel posX={staticPointerX} posY={staticPointerY} style={style} view={true}></Panel>
+{/if}
+
 <script lang="ts">
   import browser from "webextension-polyfill";
-  import Picker from "./Picker.svelte";
+  import Panel from "./Panel.svelte";
   import { onceOff } from "../lib/helpers";
   import { generateShorthand, removeRootStyles } from "../lib/shorthand";
   let active: boolean;
   let once: boolean = false;
   let pointerX: number, pointerY: number;
-  let diff;
+  let style;
   let w;
   let clicked: boolean = false;
   let staticPointerX: number, staticPointerY: number;
@@ -52,9 +56,9 @@
       document.body.appendChild(dummy);
 
       let fontSize: number;
-      [diff, fontSize] = removeRootStyles(target, dummy);
+      [style, fontSize] = removeRootStyles(target, dummy);
       dummy.remove();
-      diff = generateShorthand(diff, fontSize);
+      style = generateShorthand(style, fontSize);
 
       if (once) {
         onceOff();
@@ -75,25 +79,3 @@
     }
   }
 </script>
-
-{#if clicked}
-  <main
-    id="clotho-picker-panel"
-    class="clotho-picker-panel"
-    bind:clientWidth={w}
-    style:top="{staticPointerY}px"
-    style:left="{staticPointerX}px"
-  >
-    <Picker clicked={clicked} style={diff} />
-  </main>
-{/if}
-
-<style>
-  main {
-    padding: 1rem;
-    color: #9e9e9e;
-    position: absolute;
-    background-color: #212121;
-    z-index: 9998!important;
-  }
-</style>

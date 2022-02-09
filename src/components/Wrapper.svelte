@@ -1,11 +1,9 @@
 <script lang="ts">
-  import { copyToClipboard, saveStyle, getStyles, getHexLightness } from "../lib/helpers";
-  import Showroom from "./Showroom.svelte";
+  import { copyToClipboard, saveStyle, getStyles } from "../lib/helpers";
 
   export let style = {};
   export let clicked;
   let view = false;
-  let styles = getStyles();
 </script>
 
 <div class="wrapper">
@@ -17,11 +15,7 @@
   </div>
   <div class="panel">
     <button>close</button>
-    {#if view}
-      <Showroom />
-    {:else}
       <slot />
-    {/if}
   </div>
 </div>
 

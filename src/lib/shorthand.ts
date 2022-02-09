@@ -21,19 +21,19 @@ export function removeRootStyles(target: HTMLElement, dummy: HTMLElement): [Obje
   let windowStyle = window.getComputedStyle(dummy);
   let fontSize: number = 16;
   let lastProp: string = '';
-  let diff = {};
+  let style = {};
   for (const prop in componentStyle) {
     if (componentStyle[prop] !== windowStyle[prop] && !prop.startsWith('-') && isNaN(parseInt(prop))) {
-      diff[prop] = componentStyle[prop];
+      style[prop] = componentStyle[prop];
     } else if (prop === 'font-size') {
       fontSize = parseInt(componentStyle[prop]);
     }
     if (prop.replace(/-/g, '').toLowerCase() === lastProp.replace(/-/g, '').toLowerCase()) {
-      delete diff[lastProp];
+      delete style[lastProp];
     }
     lastProp = prop;
   }
-  return [diff, fontSize];
+  return [style, fontSize];
 }
 
 export function createStyleList(style: Object): string {
