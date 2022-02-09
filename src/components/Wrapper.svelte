@@ -1,6 +1,5 @@
 <script lang="ts">
   import { copyToClipboard, saveStyle, onceOn } from "../lib/helpers";
-
   export let style = {};
   export let gallery = false;
 </script>

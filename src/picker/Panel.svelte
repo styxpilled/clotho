@@ -15,7 +15,7 @@
   style:left="{posX}px"
 > 
 <Wrapper {style} bind:gallery={gallery}>
-  {#if !gallery}
+  {#if gallery}
     <Gallery />
   {:else}
     <Picker style={style} />

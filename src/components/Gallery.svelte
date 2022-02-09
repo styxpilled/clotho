@@ -1,14 +1,13 @@
 <script lang="ts">
   import { getStyles } from "../lib/helpers";
   import { createStyleList } from "../lib/shorthand";
-  // export let style = {};
   let styles = getStyles();
 </script>
 
 {#await styles then newstyles}
-<code>
   {#each Object.entries(newstyles) as [stylename, value]}
     <p style={createStyleList(value)}>TEST</p>
+    <code>
     {`.${stylename} {`}<br />
     {#each Object.entries(value) as [prop, val]}
       {#if val.length > 50}
@@ -22,10 +21,9 @@
       {/if}
       <br />
     {/each}
-    <!-- <br /> -->
     {`}`}
+    </code>
   {/each}
-</code>
 {/await}
 
 <style>
