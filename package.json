@@ -7,7 +7,9 @@
     "build": "rimraf public/build && rollup -c",
     "commit": "cz",
     "lint:js": "eslint --format=pretty --ignore-path .gitignore .",
-    "lint:css": "stylelint **/*.{pcss,css,html,svelte} --custom-formatter=node_modules/stylelint-formatter-pretty"
+    "lint:css": "stylelint **/*.{pcss,css,html,svelte} --custom-formatter=node_modules/stylelint-formatter-pretty",
+    "fix:js": "eslint --format=pretty --ignore-path .gitignore . --fix",
+    "fix:css": "stylelint **/*.{pcss,css,html,svelte} --fix --custom-formatter=node_modules/stylelint-formatter-pretty"
   },
   "devDependencies": {
     "@iconify/icons-mdi": "^1.1.47",
@@ -51,8 +53,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "autoprefixer": "^10.4.2"
   }
 }
