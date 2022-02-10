@@ -24,7 +24,7 @@
       ],
       "css": [
           "build/picker.css",
-          "build/picker/bundle.css"
+          "build/picker/main.css"
       ],
       "js": [
           "build/picker/main.js"

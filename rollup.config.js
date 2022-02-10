@@ -1,11 +1,13 @@
+// Rollup plugins
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from '@rollup/plugin-typescript';
 import multi from 'rollup-plugin-multi-input';
-import css from 'rollup-plugin-css-only';
 import preprocess from 'svelte-preprocess';
+// PostCSS plugins
+const autoprefixer = require('autoprefixer');
 
 export default [
   {
@@ -56,7 +58,10 @@ export default [
       svelte({
         preprocess: preprocess()
       }),
-      css({ output: 'bundle.css' }),
+      postcss({
+        extract: true,
+        plugins: [autoprefixer],
+      }),
       resolve({
         browser: true,
         dedupe: ['svelte']
