@@ -24,8 +24,10 @@
 <button on:click={() => (active = onceOn())}>Pick Style</button>
 <p>This is an early beta</p>
 
-<style>
+<style lang='postcss'>
+  @import 'variables.css';
   h1 {
-    background-color: black;
+    background-color: $bg;
+    color: aqua;
   }
 </style>

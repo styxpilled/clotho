@@ -6,8 +6,8 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from '@rollup/plugin-typescript';
 import multi from 'rollup-plugin-multi-input';
 import preprocess from 'svelte-preprocess';
-// PostCSS plugins
-const autoprefixer = require('autoprefixer');
+// PostCSS config
+const config = require('./postcss.config.cjs');
 
 export default [
   {
@@ -34,9 +34,12 @@ export default [
       multi(),
       typescript(),
       svelte({
-        preprocess: preprocess(),
+        preprocess: preprocess({
+          postcss: true
+        }),
+        emitCss: true,
       }),
-      postcss(),
+      postcss(config),
       resolve({
         browser: true,
         dedupe: ["svelte"],
@@ -52,16 +55,14 @@ export default [
       dir: 'public/build/picker'
     },
     plugins: [
-      typescript({
-        sourceMap: true,
-      }),
+      typescript(),
       svelte({
-        preprocess: preprocess()
+        preprocess: preprocess({
+          postcss: true,
+        }),
+        emitCss: true,
       }),
-      postcss({
-        extract: true,
-        plugins: [autoprefixer],
-      }),
+      postcss(config),
       resolve({
         browser: true,
         dedupe: ['svelte']
