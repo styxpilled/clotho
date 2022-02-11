@@ -12,7 +12,8 @@
 		},
     "types": ["webextension-polyfill", "svelte"],
     "typeRoots": ["node_modules/@types"],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": false,
   },
 	"include": ["src/**/*.ts", "src/**/*.svelte"]
 }

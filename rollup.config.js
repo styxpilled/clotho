@@ -5,11 +5,15 @@ import postcss from 'rollup-plugin-postcss';
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from '@rollup/plugin-typescript';
 import multi from 'rollup-plugin-multi-input';
-import preprocess from 'svelte-preprocess';
+// Svelte config
+import svelteConfig from './svelte.config';
 // PostCSS config
-const config = require('./postcss.config.cjs');
+const postCSSConfig = require('./postcss.config.cjs');
 
 export default [
+  // This is the picker outline css file
+  // Honestly, it doesn't need to use multi-input, but maybe in the future
+  // it will process some other files.
   {
     input: ['src/**/*.css'],
     output: {
@@ -25,21 +29,18 @@ export default [
     ],
   },
   {
+    // These are the pages
     input: ['src/pages/*.ts'],
     output: {
+      // Using esm imports is fine in pages
       format: 'esm',
       dir: 'public/build',
     },
     plugins: [
       multi(),
       typescript(),
-      svelte({
-        preprocess: preprocess({
-          postcss: true
-        }),
-        emitCss: true,
-      }),
-      postcss(config),
+      svelte(svelteConfig),
+      postcss(postCSSConfig),
       resolve({
         browser: true,
         dedupe: ["svelte"],
@@ -48,21 +49,18 @@ export default [
     ],
   },
   {
+    // This is the content script
     input: 'src/picker/main.ts',
     output: {
+      // esm imports don't work in content scripts
       format: 'iife',
       name: 'app',
       dir: 'public/build/picker'
     },
     plugins: [
       typescript(),
-      svelte({
-        preprocess: preprocess({
-          postcss: true,
-        }),
-        emitCss: true,
-      }),
-      postcss(config),
+      svelte(svelteConfig),
+      postcss(postCSSConfig),
       resolve({
         browser: true,
         dedupe: ['svelte']
