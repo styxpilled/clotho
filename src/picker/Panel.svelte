@@ -4,7 +4,7 @@
   import Wrapper from "../components/Wrapper.svelte";
 
   export let posY: number, posX: number;
-  export let style: Object;
+  export let style: Record<string, string>;
   let gallery: boolean;
 </script>
 

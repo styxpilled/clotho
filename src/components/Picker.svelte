@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getHexLightness } from "../lib/helpers";
   import { createStyleList } from "../lib/shorthand"
-  export let style: Object;
+  export let style: Record<string, string>;
 </script>
 
   <p style={createStyleList(style)}>TEST</p>

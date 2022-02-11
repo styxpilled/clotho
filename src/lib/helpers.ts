@@ -8,7 +8,7 @@ export async function toggle() {
       remove: true,
     });
   });
-};
+}
 
 export function onceOn() {
   browser.storage.local.set({
@@ -16,7 +16,7 @@ export function onceOn() {
     remove: false,
   });
   return true;
-};
+}
 
 export function onceOff() {
   browser.storage.local.set({
@@ -24,9 +24,9 @@ export function onceOff() {
     remove: true,
   });
   return true;
-};
+}
 
-export function saveStyle(style: Object, name: string) {
+export function saveStyle(style: Record<string, string>, name: string) {
   browser.storage.local.get('styles').then((result) => {
     const styles = result.styles || {};
     styles[name] = style;
@@ -36,7 +36,7 @@ export function saveStyle(style: Object, name: string) {
   });
 }
 
-export async function getStyles() {
+export async function getStyles(): Promise<Record<string, Record<string, string>>> {
   const result = await browser.storage.local.get('styles');
   return result.styles || {};
 }
@@ -58,7 +58,7 @@ export function pxToRem(value: string, fontSize: number) {
     console.log(e);
     return "0";
   }
-};
+}
 
 export function remToPx(value: string, fontSize: number) {
   try {
@@ -77,7 +77,7 @@ export function remToPx(value: string, fontSize: number) {
     console.log(e);
     return "0";
   }
-};
+}
 
 export function rgbToHex(value: string) {
   const matches = String(value).match(/rgb\((\d+),\s?(\d+),\s?(\d+)\)/);
@@ -86,7 +86,7 @@ export function rgbToHex(value: string) {
   } else {
     return value;
   }
-};
+}
 
 export function getHexLightness(hex: string) {
   const color = hex.substring(1);

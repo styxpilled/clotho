@@ -8,8 +8,8 @@
   import { generateShorthand, removeRootStyles } from "../lib/shorthand";
   let active: boolean;
   let pointerX: number, pointerY: number;
-  let style: Object;
-  let open: boolean = false;
+  let style: Record<string, string>;
+  let open = false;
   let posX: number, posY: number;
 
   const clothoOutline = "clotho-picker-outline";
