@@ -43,21 +43,26 @@
     align-self: flex-end;
     background-color: #212121;
   }
+
   button:hover {
     color: #9780ff;
   }
+
   .wrapper {
     display: flex;
     flex-direction: row;
   }
+
   .container {
     display: flex;
     flex-direction: column;
     max-width: max-content;
   }
+
   .panel {
     display: flex;
     flex-direction: column;
+
     /* flex: 1; */
   }
 </style>

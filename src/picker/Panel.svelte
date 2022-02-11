@@ -29,7 +29,7 @@
     color: #9e9e9e;
     position: absolute;
     background-color: #212121;
-    z-index: 9998!important;
+    z-index: 9998 !important;
   }
 </style>
 

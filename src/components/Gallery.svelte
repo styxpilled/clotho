@@ -5,19 +5,19 @@
 </script>
 
 {#await styles then newstyles}
-  {#each Object.entries(newstyles) as [stylename, value]}
-    <p style={createStyleList(value)}>TEST</p>
+  {#each Object.entries(newstyles) as [stylename, style]}
+    <p style={createStyleList(style)}>TEST</p>
     <code>
     {`.${stylename} {`}<br />
-    {#each Object.entries(value) as [prop, val]}
-      {#if val.length > 50}
-        <prop>{prop}</prop>:
-        <val>{val.slice(0, val.slice(0, 50).lastIndexOf(" "))}</val>...;
+    {#each Object.entries(style) as [property, value]}
+      {#if value.length > 50}
+        <property>{property}</property>:
+        <value>{value.slice(0, value.slice(0, 50).lastIndexOf(" "))}</value>...;
       {:else}
-        <prop>{prop}</prop>: <val>{val}</val>;
+        <property>{property}</property>: <value>{value}</value>;
       {/if}
-      {#if String(val).includes("#")}
-        <preview style:background-color={String(val)} />
+      {#if String(value).includes("#")}
+        <preview style:background-color={String(value)} />
       {/if}
       <br />
     {/each}
@@ -31,19 +31,23 @@
     font-family: "Courier New", Tahoma, Geneva, Verdana, sans-serif;
     font-size: medium;
     font-weight: 700;
-    color: #eeeeee;
+    color: #eee;
     white-space: nowrap;
   }
+
   p {
     align-self: center;
   }
-  prop {
+
+  property {
     color: #4fc3f7;
     margin-left: 1rem;
   }
-  val {
+
+  value {
     color: #ba68c8;
   }
+
   preview {
     display: inline-block;
     position: relative;

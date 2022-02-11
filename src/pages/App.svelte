@@ -25,7 +25,8 @@
 <p>This is an early beta</p>
 
 <style lang='postcss'>
-  @import 'variables.css';
+  @import "variables.css";
+
   h1 {
     background-color: $bg;
     color: aqua;

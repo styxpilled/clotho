@@ -29,19 +29,23 @@
     font-family: "Courier New", Tahoma, Geneva, Verdana, sans-serif;
     font-size: medium;
     font-weight: 700;
-    color: #eeeeee;
+    color: #eee;
     white-space: nowrap;
   }
+
   p {
     align-self: center;
   }
+
   property {
     color: #4fc3f7;
     margin-left: 1rem;
   }
+
   value {
     color: #ba68c8;
   }
+
   preview {
     display: inline-block;
     position: relative;
