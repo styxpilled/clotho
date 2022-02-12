@@ -95,7 +95,7 @@ export function getHexLightness(hex: string) {
   const b = parseInt(color.substring(4, 6), 16);
   const luma = Math.round((r * 299 + g * 587 + b * 114) / 1000);
 
-  return luma > 125 ? true : false;
+  return luma > 125 ? false : true;
 }
 
 export const copyToClipboard = str => {

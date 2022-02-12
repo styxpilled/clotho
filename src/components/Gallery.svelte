@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getStyles } from "../lib/helpers";
+  import { getStyles, getHexLightness } from "../lib/helpers";
   import { createStyleList } from "../lib/shorthand";
   let styles = getStyles();
 </script>
@@ -16,8 +16,11 @@
       {:else}
         <property>{property}</property>: <value>{value}</value>;
       {/if}
-      {#if String(value).includes("#")}
-        <preview style:background-color={String(value)} />
+      {#if value.includes("#")}
+        <preview
+          style:background-color={value}
+          style:border-color={getHexLightness(value) ? "#fff" : "#000"}
+        />
       {/if}
       <br />
     {/each}
