@@ -13,10 +13,10 @@
       {:else}
         <property>{property}</property>: <value>{value}</value>;
       {/if}
-      {#if value.includes("#")}
+      {#if String(value).includes("#")}
         <preview
-          style:background-color={value}
-          style:border-color={getHexLightness(value) ? "#fff" : "#000"}
+          style:background-color={String(value)}
+          style:border-color={getHexLightness(String(value)) ? "#fff" : "#000"}
         />
       {/if}
       <br />
