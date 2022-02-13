@@ -19,7 +19,6 @@
 
   browser.storage.onChanged.addListener((changes) => {
     if (changes.active) {
-      console.log("active changed", changes.active.newValue);
       
       open = false;
       active = changes.active.newValue;
@@ -28,10 +27,7 @@
       prevTarget.classList.remove(clothoOutline);
       prevTarget = null;
     }
-    if (changes.remove) {
-      // remove();
-      console.log('adjknajdbasjdb');
-      
+    if (changes.remove) {    
       open = false;
     }
   });
