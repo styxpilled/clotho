@@ -2,7 +2,7 @@ import { pxToRem, rgbToHex } from "./helpers";
 import { roots, suffixes } from "./shorthands";
 
 export function generateShorthand(longhand: Record<string, string>, fontSize: number) {
-  const shorthand = {};
+  let shorthand = {};
   longhand = Object.keys(longhand).sort().reduce((accumulator, currentValue) => {
     accumulator[currentValue] = longhand[currentValue];
     return accumulator;
@@ -17,21 +17,41 @@ export function generateShorthand(longhand: Record<string, string>, fontSize: nu
       }
     }
   }
+  shorthand = conglomerator(shorthand);
+  return shorthand;
+}
+
+
+function conglomerator(shorthand: Record<string, string>) {
   let lastProperty: string;
-  console.log(suffixes);
   let lastIndex = -1;
+  let shortProperty: string | string[];
   for (const [property, value] of Object.entries(shorthand)) {
     const rootIndex = roots.indexOf(property.split('-')[0]);
-    const sufIndex = suffixes.indexOf(property.split('-')[1]);
     if (rootIndex !== -1) {
-      const rootProperty = roots[rootIndex];
-      // shorthand[property] = rootProperty;
+      const sufIndex = suffixes.indexOf(property.split('-')[1]);
+      if (sufIndex !== -1) {
+        if (roots.includes(property)) {
+          shortProperty = property;
+        }
+        else {
+          shortProperty = roots[rootIndex];
+        }
+        shortProperty = shortProperty.toString();
+        if (lastIndex === rootIndex) {
+          delete shorthand[lastProperty];
+          shorthand[shortProperty] += ` ${value}`;
+          console.log(shorthand[shortProperty]);
+
+        }
+        const rootProperty = roots[rootIndex];
+        // shorthand[property] = rootProperty;
+      }
+      else if (property !== roots[rootIndex]) {
+        delete shorthand[property];
+      }
     }
-    if (sufIndex !== -1) {
-      const rootProperty = suffixes[sufIndex];
-      shorthand[property] = rootProperty;
-    }
-    lastIndex = rootIndex; 
+    lastIndex = rootIndex;
   }
   return shorthand;
 }
