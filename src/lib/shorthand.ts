@@ -17,7 +17,7 @@ export function generateShorthand(longhand: Record<string, string>, fontSize: nu
       }
     }
   }
-  shorthand = conglomerator(shorthand);
+  // shorthand = conglomerator(shorthand);
   return shorthand;
 }
 
@@ -30,29 +30,33 @@ function conglomerator(shorthand: Record<string, string>) {
     const rootIndex = roots.indexOf(property.split('-')[0]);
     if (rootIndex !== -1) {
       const sufIndex = suffixes.indexOf(property.split('-')[1]);
+      const rootProperty = roots[rootIndex];
       if (sufIndex !== -1) {
+        console.log('all good here');
+        
         if (roots.includes(property)) {
           shortProperty = property;
         }
         else {
-          shortProperty = roots[rootIndex];
+          shortProperty = rootProperty;
         }
         shortProperty = shortProperty.toString();
-        if (lastIndex === rootIndex) {
-          delete shorthand[lastProperty];
-          shorthand[shortProperty] += ` ${value}`;
-          console.log(shorthand[shortProperty]);
+        // if (lastIndex === rootIndex) {
+          
+          // delete shorthand[lastProperty];
+        shorthand[shortProperty] += ` ${value}`;
+        console.log(shorthand[shortProperty]);
 
-        }
-        const rootProperty = roots[rootIndex];
+        // }
         // shorthand[property] = rootProperty;
       }
-      else if (property !== roots[rootIndex]) {
+      else if (property !== rootProperty) {
         delete shorthand[property];
       }
     }
+    lastProperty = property;
     lastIndex = rootIndex;
-  }
+  }  
   return shorthand;
 }
 
@@ -64,7 +68,9 @@ export function removeRootStyles(target: HTMLElement, dummy: HTMLElement): [Reco
   const style = {};
   for (const prop in componentStyle) {
     if (componentStyle[prop] !== windowStyle[prop] && !prop.startsWith('-') && isNaN(parseInt(prop))) {
-      style[prop] = componentStyle[prop];
+      if (prop !== 'width') {
+        style[prop] = componentStyle[prop];
+      }
     } else if (prop === 'font-size') {
       fontSize = parseInt(componentStyle[prop]);
     }
